@@ -1,0 +1,81 @@
+"""TaskTrackr: A command-line task manager that allows you to add, view, complete, 
+   and delete tasks using simple terminal commands."""
+
+import argparse
+import json
+import os
+
+TASKS_FILE = 'tasks.json'
+
+
+def load_tasks():
+    """Loads tasks from the JSON file."""
+    pass  #TODO: implement the logic for loading 
+
+
+def save_tasks(tasks):
+    """Save the tasks to the JSON file."""
+    pass  # TODO: implement saving logic
+
+
+def add_task(title, due, priority):
+    """Adds a new task to the list of tasks."""
+    pass  # TODO: implement add task
+
+
+def list_tasks(status=None):
+    """Lists all tasks, optionally filtered by status."""
+    pass  # TODO: implement list logic
+
+
+def complete_task(task_id):
+    """Marks a task as completed."""
+    pass  # TODO: implement mark-complete logic
+
+
+def delete_task(task_id):
+    """Deletes a task based on its ID."""
+    pass  # TODO: implement delete logic
+
+
+def main():
+    """Parses CLI arguments and routes to appropriate functions. """
+    #Set up the argument parser
+    parser = argparse.ArgumentParser(description="TaskTrackr - Command Line To-Do List")
+    subparsers = parser.add_subparsers(dest='command')
+
+    # Add the task command
+    add_parser = subparsers.add_parser('add')
+    add_parser.add_argument('--title', required=True)
+    add_parser.add_argument('--due', required=True)
+    add_parser.add_argument('--priority', default='Medium')
+
+    #List the tasks command
+    list_parser = subparsers.add_parser('list')
+    list_parser.add_argument('--status', choices=['pending', 'completed'])
+
+    #Complete the task command
+    complete_parser = subparsers.add_parser('complete')
+    complete_parser.add_argument('--id', type=int, required=True)
+
+    #Delete the task command
+    delete_parser = subparsers.add_parser('delete')
+    delete_parser.add_argument('--id', type=int, required=True)
+
+    #Parse arguments and route commands
+    args = parser.parse_args()
+
+    if args.command == 'add':
+        add_task(args.title, args.due, args.priority)
+    elif args.command == 'list':
+        list_tasks(args.status)
+    elif args.command == 'complete':
+        complete_task(args.id)
+    elif args.command == 'delete':
+        delete_task(args.id)
+    else:
+        parser.print_help()
+
+
+if __name__ == '__main__':
+    main()
