@@ -52,6 +52,20 @@ def list_tasks(status=None):
     for i,task in enumerate(self.tasks):
                 print(f"{i + 1}.task")  # TODO: implement list logic
 
+def progress_tracker(self,task,prompt_status = True):
+            progress_prompt = input(f"Have you finished the task {task}?  Enter Yes or No: ").strip().lower()
+            if(progress_prompt == "yes"):
+                prompt_status = True
+                print(f"✅ Task '{task}' is 100% done.")
+
+            elif(progress_prompt == "no"):
+                prompt_status = False
+                print(f"⏳ Task '{task}' is still in progress.")
+            else:
+                print("Invalid input")
+                return None
+            
+            return prompt_status
 
 def complete_task(task_id):
     """Marks a task as completed."""
