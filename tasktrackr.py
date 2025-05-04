@@ -7,6 +7,8 @@ import os
 
 TASKS_FILE = 'tasks.json'
 
+def __init__(self):
+        self.tasks = []
 
 def load_tasks():
     """Loads tasks from the JSON file."""
@@ -42,9 +44,8 @@ def organize_task(self):
 
 
 
-def add_task(title, due, priority):
-    """Adds a new task to the list of tasks."""
-    pass  # TODO: implement add task
+def add_task(self, description):
+            self.tasks.append(description)
 
 
 def list_tasks(status=None):
