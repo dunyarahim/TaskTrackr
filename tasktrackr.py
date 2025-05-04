@@ -49,7 +49,8 @@ def add_task(title, due, priority):
 
 def list_tasks(status=None):
     """Lists all tasks, optionally filtered by status."""
-    pass  # TODO: implement list logic
+    for i,task in enumerate(self.tasks):
+                print(f"{i + 1}.task")  # TODO: implement list logic
 
 
 def complete_task(task_id):
