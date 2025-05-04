@@ -16,6 +16,30 @@ def load_tasks():
 def save_tasks(tasks):
     """Save the tasks to the JSON file."""
     pass  # TODO: implement saving logic
+   
+def organize_task(self):
+            categorized_tasks = {
+                'ClassType A': [],
+                'ClassType B': [],
+                'ClassType C': [],
+                'Other': []
+            }
+            
+
+            for task in self.tasks:
+                if task[0] == 'A':
+                    categorized_tasks['ClassType A'].append(task)
+                elif task[0] == 'B':
+                    categorized_tasks['ClassType B'].append(task)
+                elif task[0] == 'C':
+                    categorized_tasks['ClassType C'].append(task)
+                else:
+                    categorized_tasks['Other'].append(task)
+                
+            return categorized_tasks
+                
+
+
 
 
 def add_task(title, due, priority):
