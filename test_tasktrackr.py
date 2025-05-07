@@ -1,5 +1,5 @@
-"""TSkeleton for unit tests for TaskTrackr.
-Planned test cases to be filled in as the functions are written."""
+"""Skeleton for unit tests for TaskTrackr.
+Planned test cases will be filled in as the functions are written by different group members."""
 
 import unittest
 import tasktrackr  
