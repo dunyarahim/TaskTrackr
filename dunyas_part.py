@@ -10,7 +10,6 @@ TASKS_FILE = 'tasks.json'
 
 class Task:
     """This class represents a single task with attributes: title, due date, priority, and completion status."""
-
     def __init__(self, task_id, title, due_date, priority, completed=False):
         self.id = task_id
         self.title = title
