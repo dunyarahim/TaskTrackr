@@ -2,8 +2,8 @@
 in the list command, along with unit tests to ensure the filtering works correctly."""
 
 def test_filter_pending_tasks(self):
-  self.manager.add_task("Pending Task 1", "High")
-  self.manager.add_task("Pending Task 2", "Low")
+  self.manager.add_task("Pending Task 1", "2025-05-12", "High")
+  self.manager.add_task("Pending Task 2", "2025-05-12", "Low")
   self.manager.complete_task(self.manager.tasks[1].id)
 
   pending_tasks = [t for t in self.manager.tasks if not t.completed]
