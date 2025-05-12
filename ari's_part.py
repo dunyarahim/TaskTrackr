@@ -95,6 +95,7 @@ class TaskManager:
 """
         Displays the current list of tasks with their status.
         Each task is numbered for easy reference.
+        may be deleted for alternatives provided by group
         """
     def display_tasks(self):
         for i, task in enumerate(self.tasks):
@@ -119,7 +120,9 @@ class TaskManager:
             return
 
         self.save_tasks()
+       
 #tracks deadlines and organizes events and tasks by priority via those deadlines 
+#May be deleted for alternatives provided by group
     def deadline_manager(self, task_index):
         if task_index < 0 or task_index >= len(self.tasks):
             print("❌ Invalid task index.")
