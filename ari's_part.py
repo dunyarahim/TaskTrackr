@@ -1,81 +1,115 @@
 """TaskTrackr: A command-line task manager that allows you to add, view, complete, 
    and delete tasks using simple terminal commands."""
 
-import argparse
+import re
+from datetime import datetime
 import json
 import os
 
-TASKS_FILE = 'tasks.json'
+class TaskManager:
 
-def __init__(self):
+    TASKS_FILE = 'tasks.json'
+
+    def __init__(self):
         self.tasks = []
+        self.deadlines = {}
+        self.load_tasks()
 
-def load_tasks():
-    """Loads tasks from the JSON file."""
-    pass  #TODO: implement the logic for loading 
+    def load_tasks(self):
+        if os.path.exists(self.TASKS_FILE):
+            try:
+                with open(self.TASKS_FILE, 'r') as file:
+                    self.tasks = json.load(file)
+                    print("✅ Loaded tasks from file:")
+                    print(json.dumps(self.tasks, indent=4))
+            except json.JSONDecodeError:
+                print(f"❌ Error: Invalid JSON format in {self.TASKS_FILE}")
+                self.tasks = []
+        else:
+            print(f"⚠️ No existing task file found at {self.TASKS_FILE}. Starting with empty task list.")
 
+    def save_tasks(self):
+        try:
+            with open(self.TASKS_FILE, 'w') as file:
+                json.dump(self.tasks, file, indent=4)
+            print("✅ Tasks saved successfully.")
+        except Exception as e:
+            print(f"❌ Failed to save tasks: {e}")
 
-def save_tasks(tasks):
-    """Save the tasks to the JSON file."""
-    pass  # TODO: implement saving logic
-   
-def organize_task(self):
-            categorized_tasks = {
-                'ClassType A': [],
-                'ClassType B': [],
-                'ClassType C': [],
-                'Other': []
-            }
-            
+    def add_task(self, description):
+        task = {
+            "description": description,
+            "status": "incomplete"
+        }
+        self.tasks.append(task)
+        self.save_tasks()
 
-            for task in self.tasks:
-                if task[0] == 'A':
-                    categorized_tasks['ClassType A'].append(task)
-                elif task[0] == 'B':
-                    categorized_tasks['ClassType B'].append(task)
-                elif task[0] == 'C':
-                    categorized_tasks['ClassType C'].append(task)
-                else:
-                    categorized_tasks['Other'].append(task)
-                
-            return categorized_tasks
-                
+    def organize_task(self):
+        categorized_tasks = {
+            'ClassType A': [],
+            'ClassType B': [],
+            'ClassType C': [],
+            'Other': []
+        }
 
-
-
-
-def add_task(self, description):
-            self.tasks.append(description)
-
-
-def list_tasks(status=None):
-    """Lists all tasks, optionally filtered by status."""
-    for i,task in enumerate(self.tasks):
-                print(f"{i + 1}.task")  # TODO: implement list logic
-
-def progress_tracker(self,task,prompt_status = True):
-            progress_prompt = input(f"Have you finished the task {task}?  Enter Yes or No: ").strip().lower()
-            if(progress_prompt == "yes"):
-                prompt_status = True
-                print(f"✅ Task '{task}' is 100% done.")
-
-            elif(progress_prompt == "no"):
-                prompt_status = False
-                print(f"⏳ Task '{task}' is still in progress.")
+        for task in self.tasks:
+            desc = task["description"]
+            if desc.startswith('A'):
+                categorized_tasks['ClassType A'].append(task)
+            elif desc.startswith('B'):
+                categorized_tasks['ClassType B'].append(task)
+            elif desc.startswith('C'):
+                categorized_tasks['ClassType C'].append(task)
             else:
-                print("Invalid input")
-                return None
-            
-            return prompt_status
+                categorized_tasks['Other'].append(task)
 
-def complete_task(task_id):
-    """Marks a task as completed."""
-    pass  # TODO: implement mark-complete logic
+        return categorized_tasks
+
+    def display_tasks(self):
+        for i, task in enumerate(self.tasks):
+            print(f"{i + 1}. {task['description']} - {task['status']}")
+
+    def progress_tracker(self, task_index):
+        if task_index < 0 or task_index >= len(self.tasks):
+            print("❌ Invalid task index.")
+            return
+
+        task = self.tasks[task_index]
+        progress_prompt = input(f"Have you finished the task '{task['description']}'? Enter Yes or No: ").strip().lower()
+        if progress_prompt == "yes":
+            task["status"] = "complete"
+            print(f"✅ Task '{task['description']}' is 100% done.")
+        elif progress_prompt == "no":
+            task["status"] = "incomplete"
+            print(f"⏳ Task '{task['description']}' is still in progress.")
+        else:
+            print("❌ Invalid input.")
+            return
+
+        self.save_tasks()
+
+    def deadline_manager(self, task_index):
+        if task_index < 0 or task_index >= len(self.tasks):
+            print("❌ Invalid task index.")
+            return
+
+        task = self.tasks[task_index]['description']
+        deadline_prompt = input(f"When is the task '{task}' due? Use MM/DD/YYYY or MM-DD-YYYY: ")
+
+        def is_valid_date(date_string):
+            return re.match(r"^\d{2}[-/]\d{2}[-/]\d{4}$", date_string) is not None
+
+        if is_valid_date(deadline_prompt):
+            try:
+                parsed_date = datetime.strptime(deadline_prompt.replace("-", "/"), "%m/%d/%Y")
+                self.deadlines[task] = parsed_date.strftime("%Y-%m-%d")
+                print(f"📅 Deadline set for '{task}' on {parsed_date.strftime('%B %d, %Y')}")
+            except ValueError:
+                print("❌ Could not parse the date.")
+        else:
+            print("❌ Invalid date format.")
 
 
-def delete_task(task_id):
-    """Deletes a task based on its ID."""
-    pass  # TODO: implement delete logic
 
 
 def main():
