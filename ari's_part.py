@@ -10,12 +10,24 @@ class TaskManager:
 
     TASKS_FILE = 'tasks.json'
 
+   """
+        Initializes the TaskManager instance.
+        Loads tasks from a JSON file if it exists.
+        Initializes an empty list of tasks and deadlines.
+        """
+
     def __init__(self):
         self.tasks = []
         self.deadlines = {}
         self.load_tasks()
 
    #Loads tasks from JSON file and to a json file to process user tasks
+        """
+        Loads tasks from the JSON file.
+        If the file exists and is properly formatted, tasks are loaded into memory.
+        If not, it either initializes with an empty list or prints an error.
+        """
+
     def load_tasks(self):
         if os.path.exists(self.TASKS_FILE):
             try:
@@ -30,6 +42,10 @@ class TaskManager:
             print(f"⚠️ No existing task file found at {self.TASKS_FILE}. Starting with empty task list.")
 
    #saves user tasks in a file to later display
+"""
+        Saves the current list of tasks to the JSON file.
+        Writes tasks in a pretty-printed JSON format.
+        """
     def save_tasks(self):
         try:
             with open(self.TASKS_FILE, 'w') as file:
@@ -38,6 +54,10 @@ class TaskManager:
         except Exception as e:
             print(f"❌ Failed to save tasks: {e}")
 
+"""
+        Adds a new task with the given description to the task list.
+        Automatically sets the status to 'incomplete' and saves the task list.
+        """
     def add_task(self, description):
         task = {
             "description": description,
@@ -47,6 +67,10 @@ class TaskManager:
         self.save_tasks()
 
    #Organizes and adjusts task to prepare for later display
+"""
+        Organizes tasks into categories based on the first letter of their description.
+        Returns a dictionary of categorized task lists.
+        """
     def organize_task(self):
         categorized_tasks = {
             'ClassType A': [],
@@ -68,6 +92,10 @@ class TaskManager:
 
         return categorized_tasks
 
+"""
+        Displays the current list of tasks with their status.
+        Each task is numbered for easy reference.
+        """
     def display_tasks(self):
         for i, task in enumerate(self.tasks):
             print(f"{i + 1}. {task['description']} - {task['status']}")
