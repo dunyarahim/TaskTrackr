@@ -15,6 +15,7 @@ class TaskManager:
         self.deadlines = {}
         self.load_tasks()
 
+   #Loads tasks from JSON file and to a json file to process user tasks
     def load_tasks(self):
         if os.path.exists(self.TASKS_FILE):
             try:
@@ -28,6 +29,7 @@ class TaskManager:
         else:
             print(f"⚠️ No existing task file found at {self.TASKS_FILE}. Starting with empty task list.")
 
+   #saves user tasks in a file to later display
     def save_tasks(self):
         try:
             with open(self.TASKS_FILE, 'w') as file:
@@ -44,6 +46,7 @@ class TaskManager:
         self.tasks.append(task)
         self.save_tasks()
 
+   #Organizes and adjusts task to prepare for later display
     def organize_task(self):
         categorized_tasks = {
             'ClassType A': [],
@@ -69,6 +72,7 @@ class TaskManager:
         for i, task in enumerate(self.tasks):
             print(f"{i + 1}. {task['description']} - {task['status']}")
 
+   #Tracks tasks progress and may not be used as other versions by other members may be used instead
     def progress_tracker(self, task_index):
         if task_index < 0 or task_index >= len(self.tasks):
             print("❌ Invalid task index.")
@@ -87,7 +91,7 @@ class TaskManager:
             return
 
         self.save_tasks()
-
+#tracks deadlines and organizes events and tasks by priority via those deadlines 
     def deadline_manager(self, task_index):
         if task_index < 0 or task_index >= len(self.tasks):
             print("❌ Invalid task index.")
