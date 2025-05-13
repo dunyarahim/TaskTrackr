@@ -35,6 +35,8 @@ class TaskManager:
                 "status": "incomplete",
                 "due_date": due_date if due_date else "N/A"
             })
+        self.save_tasks()
+        
 
     def save_tasks(self):
         try:
