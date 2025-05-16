@@ -48,8 +48,14 @@ class TaskManager:
         with open(TASKS_FILE, 'w') as f:
             json.dump([t.to_dict() for t in self.tasks], f, indent=4)
 
+    def generate_task_id(self):
+        if not self.tasks:
+            return 1
+        else:
+            return max(task.id for task in self.tasks) + 1
+    
     def add_task(self, title, due_date, priority):
-        task_id = len(self.tasks) + 1
+        task_id = self.generate_task_id()
         task = Task(task_id, title, due_date, priority)
         self.tasks.append(task)
         self.save_tasks()
