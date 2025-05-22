@@ -1,6 +1,7 @@
 # TaskTrackr
 TaskTrackr is a command-line task tracker and to-do list manager written in Python.  
 It allows you to add, view, complete, and delete tasks using simple terminal commands.
+🛠️ This project was developed as part of a group project.
 
 # Key Features
 - Add tasks with a title, due date, and priority level
